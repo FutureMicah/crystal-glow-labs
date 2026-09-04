@@ -10,33 +10,63 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as CardsRouteImport } from './routes/cards'
+import { Route as SwapRouteImport } from './routes/swap'
+import { Route as AssetsAssetIdRouteImport } from './routes/assets.$assetId'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const CardsRoute = CardsRouteImport.update({
+  id: '/cards',
+  path: '/cards',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SwapRoute = SwapRouteImport.update({
+  id: '/swap',
+  path: '/swap',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AssetsAssetIdRoute = AssetsAssetIdRouteImport.update({
+  id: '/assets/$assetId',
+  path: '/assets/$assetId',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/cards': typeof CardsRoute
+  '/swap': typeof SwapRoute
+  '/assets/$assetId': typeof AssetsAssetIdRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/cards': typeof CardsRoute
+  '/swap': typeof SwapRoute
+  '/assets/$assetId': typeof AssetsAssetIdRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/cards': typeof CardsRoute
+  '/swap': typeof SwapRoute
+  '/assets/$assetId': typeof AssetsAssetIdRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/'
+  fullPaths: '/' | '/cards' | '/swap' | '/assets/$assetId'
   fileRoutesByTo: FileRoutesByTo
-  to: '/'
-  id: '__root__' | '/'
+  to: '/' | '/cards' | '/swap' | '/assets/$assetId'
+  id: '__root__' | '/' | '/cards' | '/swap' | '/assets/$assetId'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  CardsRoute: typeof CardsRoute
+  SwapRoute: typeof SwapRoute
+  AssetsAssetIdRoute: typeof AssetsAssetIdRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -48,11 +78,35 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/cards': {
+      id: '/cards'
+      path: '/cards'
+      fullPath: '/cards'
+      preLoaderRoute: typeof CardsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/swap': {
+      id: '/swap'
+      path: '/swap'
+      fullPath: '/swap'
+      preLoaderRoute: typeof SwapRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/assets/$assetId': {
+      id: '/assets/$assetId'
+      path: '/assets/$assetId'
+      fullPath: '/assets/$assetId'
+      preLoaderRoute: typeof AssetsAssetIdRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  CardsRoute: CardsRoute,
+  SwapRoute: SwapRoute,
+  AssetsAssetIdRoute: AssetsAssetIdRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
