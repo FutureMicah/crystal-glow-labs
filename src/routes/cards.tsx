@@ -50,7 +50,7 @@ export const Route = createFileRoute("/cards")({
 function Cards() {
   const [active, setActive] = useState(0);
   const [flipped, setFlipped] = useState(false);
-  const card = CARDS[active];
+  const card = CARDS[active] ?? CARDS[0];
 
   return (
     <div className="space-y-6 animate-rise">
