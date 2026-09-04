@@ -52,6 +52,8 @@ function Cards() {
   const [flipped, setFlipped] = useState(false);
   const card = CARDS[active] ?? CARDS[0];
 
+  if (!card) return null;
+
   return (
     <div className="space-y-6 animate-rise">
       <header className="text-center">
