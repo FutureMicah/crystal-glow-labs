@@ -21,7 +21,7 @@ export const Route = createFileRoute("/swap")({
       },
     ],
   }),
-  component: Swap;
+  component: Swap,
 });
 
 function Swap() {
