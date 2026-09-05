@@ -11,8 +11,11 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as CardsRouteImport } from './routes/cards'
+import { Route as MarketsRouteImport } from './routes/markets'
+import { Route as PositionsRouteImport } from './routes/positions'
 import { Route as SwapRouteImport } from './routes/swap'
 import { Route as AssetsAssetIdRouteImport } from './routes/assets.$assetId'
+import { Route as TradeSymbolRouteImport } from './routes/trade.$symbol'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -22,6 +25,16 @@ const IndexRoute = IndexRouteImport.update({
 const CardsRoute = CardsRouteImport.update({
   id: '/cards',
   path: '/cards',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const MarketsRoute = MarketsRouteImport.update({
+  id: '/markets',
+  path: '/markets',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PositionsRoute = PositionsRouteImport.update({
+  id: '/positions',
+  path: '/positions',
   getParentRoute: () => rootRouteImport,
 } as any)
 const SwapRoute = SwapRouteImport.update({
@@ -34,39 +47,78 @@ const AssetsAssetIdRoute = AssetsAssetIdRouteImport.update({
   path: '/assets/$assetId',
   getParentRoute: () => rootRouteImport,
 } as any)
+const TradeSymbolRoute = TradeSymbolRouteImport.update({
+  id: '/trade/$symbol',
+  path: '/trade/$symbol',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/cards': typeof CardsRoute
+  '/markets': typeof MarketsRoute
+  '/positions': typeof PositionsRoute
   '/swap': typeof SwapRoute
   '/assets/$assetId': typeof AssetsAssetIdRoute
+  '/trade/$symbol': typeof TradeSymbolRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/cards': typeof CardsRoute
+  '/markets': typeof MarketsRoute
+  '/positions': typeof PositionsRoute
   '/swap': typeof SwapRoute
   '/assets/$assetId': typeof AssetsAssetIdRoute
+  '/trade/$symbol': typeof TradeSymbolRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/cards': typeof CardsRoute
+  '/markets': typeof MarketsRoute
+  '/positions': typeof PositionsRoute
   '/swap': typeof SwapRoute
   '/assets/$assetId': typeof AssetsAssetIdRoute
+  '/trade/$symbol': typeof TradeSymbolRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/cards' | '/swap' | '/assets/$assetId'
+  fullPaths:
+    | '/'
+    | '/cards'
+    | '/markets'
+    | '/positions'
+    | '/swap'
+    | '/assets/$assetId'
+    | '/trade/$symbol'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/cards' | '/swap' | '/assets/$assetId'
-  id: '__root__' | '/' | '/cards' | '/swap' | '/assets/$assetId'
+  to:
+    | '/'
+    | '/cards'
+    | '/markets'
+    | '/positions'
+    | '/swap'
+    | '/assets/$assetId'
+    | '/trade/$symbol'
+  id:
+    | '__root__'
+    | '/'
+    | '/cards'
+    | '/markets'
+    | '/positions'
+    | '/swap'
+    | '/assets/$assetId'
+    | '/trade/$symbol'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   CardsRoute: typeof CardsRoute
+  MarketsRoute: typeof MarketsRoute
+  PositionsRoute: typeof PositionsRoute
   SwapRoute: typeof SwapRoute
   AssetsAssetIdRoute: typeof AssetsAssetIdRoute
+  TradeSymbolRoute: typeof TradeSymbolRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -85,6 +137,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof CardsRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/markets': {
+      id: '/markets'
+      path: '/markets'
+      fullPath: '/markets'
+      preLoaderRoute: typeof MarketsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/positions': {
+      id: '/positions'
+      path: '/positions'
+      fullPath: '/positions'
+      preLoaderRoute: typeof PositionsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/swap': {
       id: '/swap'
       path: '/swap'
@@ -99,14 +165,24 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AssetsAssetIdRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/trade/$symbol': {
+      id: '/trade/$symbol'
+      path: '/trade/$symbol'
+      fullPath: '/trade/$symbol'
+      preLoaderRoute: typeof TradeSymbolRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   CardsRoute: CardsRoute,
+  MarketsRoute: MarketsRoute,
+  PositionsRoute: PositionsRoute,
   SwapRoute: SwapRoute,
   AssetsAssetIdRoute: AssetsAssetIdRoute,
+  TradeSymbolRoute: TradeSymbolRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
