@@ -62,7 +62,11 @@ function hydrate() {
     if (raw) {
       const parsed = JSON.parse(raw) as AccountState;
       if (typeof parsed.cash === "number" && Array.isArray(parsed.positions)) {
-        state = { history: [], ...parsed };
+        state = {
+          cash: parsed.cash,
+          positions: parsed.positions,
+          history: Array.isArray(parsed.history) ? parsed.history : [],
+        };
         for (const l of listeners) l();
       }
     }

@@ -107,6 +107,9 @@ function subscribe(cb: () => void) {
 const getSnapshot = () => state;
 const getServerSnapshot = () => state;
 
+/** Non-hook access to the current tape (for order execution, P&L math). */
+export const getQuotes = (): TapeState => state;
+
 /** Live quotes for every instrument. Starts the tape on first client render. */
 export function useQuotes(): TapeState {
   useEffect(startTape, []);
