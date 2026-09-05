@@ -1,14 +1,16 @@
 import { Link, useRouterState } from "@tanstack/react-router";
-import { CreditCard, LayoutGrid, Repeat2, Sparkles } from "lucide-react";
+import { Briefcase, CandlestickChart, CreditCard, LayoutGrid, Repeat2, Sparkles } from "lucide-react";
 import type { ReactNode } from "react";
 import { cn } from "@/lib/utils";
 import { Aurora } from "./Aurora";
 
 const NAV = [
   { to: "/", label: "Portfolio", icon: LayoutGrid },
+  { to: "/markets", label: "Markets", icon: CandlestickChart },
+  { to: "/positions", label: "Positions", icon: Briefcase },
   { to: "/cards", label: "Cards", icon: CreditCard },
   { to: "/swap", label: "Swap", icon: Repeat2 },
-];
+] as const;
 
 export function Shell({ children }: { children: ReactNode }) {
   const path = useRouterState({ select: (s) => s.location.pathname });
