@@ -1,5 +1,5 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { useState } from "react";
+import { useState, type CSSProperties } from "react";
 import { Panel } from "@/components/glass";
 import {
   ASSET_CLASSES,
@@ -74,7 +74,7 @@ function Markets() {
               params={{ symbol: inst.symbol }}
               className="block"
             >
-              <Panel className="press cinematic-stagger p-4 transition-colors hover:bg-card/80" style={{ "--stagger": rows.indexOf(inst) } as React.CSSProperties}>
+              <Panel className="press cinematic-stagger p-4 transition-colors hover:bg-card/80" style={{ "--stagger": rows.indexOf(inst) } as CSSProperties}>
                 <div className="flex items-center gap-3">
                   <span className="glass grid size-10 shrink-0 place-items-center rounded-full text-sm font-medium">
                     {inst.glyph}

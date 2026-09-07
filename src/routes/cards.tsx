@@ -1,6 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { Check, Wifi } from "lucide-react";
-import { useState } from "react";
+import { useState, type CSSProperties } from "react";
 import { Panel, Tilt } from "@/components/glass";
 import { cn } from "@/lib/utils";
 
@@ -162,8 +162,8 @@ function Cards() {
           ["Spending controls", "Per-merchant, geo and velocity rules, live."],
           ["Crypto cashback", "Up to 3% back, settled in the asset you choose."],
           ["Travel cover", "Insurance and 24/7 concierge included."],
-        ].map(([t, d]) => (
-          <Panel key={t} className="cinematic-stagger p-5" style={{ "--stagger": 3 + i } as React.CSSProperties}>
+        ].map(([t, d], i) => (
+          <Panel key={t} className="cinematic-stagger p-5" style={{ "--stagger": 3 + i } as CSSProperties}>
             <h2 className="text-lg">{t}</h2>
             <p className="mt-1 text-sm text-muted-foreground">{d}</p>
           </Panel>

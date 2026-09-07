@@ -1,4 +1,4 @@
-import { useRef, type ReactNode } from "react";
+import { useRef, type CSSProperties, type ReactNode } from "react";
 import { cn } from "@/lib/utils";
 
 export function Panel({
@@ -31,10 +31,12 @@ export function Tilt({
   children,
   className,
   max = 10,
+  style,
 }: {
   children: ReactNode;
   className?: string;
   max?: number;
+  style?: CSSProperties;
 }) {
   const ref = useRef<HTMLDivElement>(null);
 
@@ -62,7 +64,7 @@ export function Tilt({
         "relative transition-transform duration-500 [transition-timing-function:cubic-bezier(0.22,1,0.36,1)] will-change-transform",
         className,
       )}
-      style={{ transform: "perspective(1200px)" }}
+      style={{ transform: "perspective(1200px)", ...style }}
     >
       {children}
       <span

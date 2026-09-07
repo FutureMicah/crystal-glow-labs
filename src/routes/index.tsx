@@ -1,6 +1,6 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { ArrowDownLeft, ArrowUpRight, Layers, Repeat2, Sprout } from "lucide-react";
-import { useEffect, useState } from "react";
+import { useEffect, useState, type CSSProperties } from "react";
 import { Chart } from "@/components/Chart";
 import { Counter } from "@/components/Counter";
 import { Panel, Tilt } from "@/components/glass";
@@ -154,7 +154,7 @@ function Portfolio() {
         <h2 className="mb-3 text-lg">Assets</h2>
         <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-3">
           {ASSETS.map((a, index) => (
-            <Tilt key={a.id} max={7} className="cinematic-stagger" style={{ "--stagger": index + 3 } as React.CSSProperties}>
+            <Tilt key={a.id} max={7} className="cinematic-stagger" style={{ "--stagger": index + 3 } as CSSProperties}>
               <Link
                 to="/assets/$assetId"
                 params={{ assetId: a.id }}
