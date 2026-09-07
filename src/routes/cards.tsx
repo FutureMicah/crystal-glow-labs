@@ -62,7 +62,7 @@ function Cards() {
         <p className="num mt-1 text-muted-foreground">{card.price}</p>
       </header>
 
-      <div className="relative mx-auto flex h-[280px] max-w-md items-center justify-center sm:h-[320px]">
+      <div className="relative mx-auto flex h-[280px] max-w-md items-center justify-center cinematic-stagger sm:h-[320px] [--stagger:1]">
         {CARDS.map((c, i) => {
           const offset = i - active;
           const isActive = offset === 0;
@@ -163,7 +163,7 @@ function Cards() {
           ["Crypto cashback", "Up to 3% back, settled in the asset you choose."],
           ["Travel cover", "Insurance and 24/7 concierge included."],
         ].map(([t, d]) => (
-          <Panel key={t} className="p-5">
+          <Panel key={t} className="cinematic-stagger p-5" style={{ "--stagger": 3 + i } as React.CSSProperties}>
             <h2 className="text-lg">{t}</h2>
             <p className="mt-1 text-sm text-muted-foreground">{d}</p>
           </Panel>

@@ -49,7 +49,7 @@ export function Shell({ children }: { children: ReactNode }) {
         </div>
       </aside>
 
-      <main className="mx-auto w-full max-w-[1600px] px-4 pb-28 pt-5 sm:px-6 lg:pb-10 lg:pl-64 lg:pr-8">
+      <main className="mx-auto w-full max-w-[1600px] px-4 pb-28 pt-5 sm:px-6 lg:pb-10 lg:pl-64 lg:pr-8 cinematic-page">
         {children}
       </main>
 

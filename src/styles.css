@@ -48,6 +48,9 @@
   --animate-shimmer: shimmer 3.5s linear infinite;
   --animate-rise: rise 0.7s cubic-bezier(0.22, 1, 0.36, 1) both;
   --animate-spin-slow: spin 14s linear infinite;
+  --animate-cinematic-enter: cinematic-enter 0.75s cubic-bezier(0.22, 1, 0.36, 1) both;
+  --animate-quote-pulse: quote-pulse 0.55s cubic-bezier(0.22, 1, 0.36, 1);
+  --animate-sheen: sheen 6s ease-in-out infinite;
 }
 
 :root {
@@ -161,17 +164,73 @@
 }
 
 @utility glass {
+  position: relative;
+  overflow: hidden;
   background: var(--glass-bg);
   backdrop-filter: blur(var(--glass-blur)) saturate(160%);
   border: 1px solid var(--glass-border);
   box-shadow: var(--shadow-glass);
+  transition:
+    transform 0.45s cubic-bezier(0.22, 1, 0.36, 1),
+    box-shadow 0.45s ease,
+    background-color 0.45s ease;
+  &::after {
+    content: "";
+    position: absolute;
+    inset: -40% -20%;
+    pointer-events: none;
+    background: linear-gradient(
+      115deg,
+      transparent 35%,
+      color-mix(in oklab, white 22%, transparent) 48%,
+      transparent 61%
+    );
+    transform: translateX(-65%) rotate(8deg);
+    animation: sheen 8s ease-in-out infinite;
+    opacity: 0.45;
+  }
 }
 
 @utility glass-strong {
+  position: relative;
+  overflow: hidden;
   background: var(--glass-bg-strong);
   backdrop-filter: blur(40px) saturate(180%);
   border: 1px solid var(--glass-border);
   box-shadow: var(--shadow-glass);
+  transition:
+    transform 0.45s cubic-bezier(0.22, 1, 0.36, 1),
+    box-shadow 0.45s ease,
+    background-color 0.45s ease;
+  &::after {
+    content: "";
+    position: absolute;
+    inset: -40% -20%;
+    pointer-events: none;
+    background: linear-gradient(
+      115deg,
+      transparent 35%,
+      color-mix(in oklab, white 28%, transparent) 48%,
+      transparent 61%
+    );
+    transform: translateX(-65%) rotate(8deg);
+    animation: sheen 8s ease-in-out infinite;
+    opacity: 0.38;
+  }
+}
+
+@utility cinematic-page {
+  animation: cinematic-enter 0.75s cubic-bezier(0.22, 1, 0.36, 1) both;
+  transform-origin: 50% 0;
+}
+
+@utility cinematic-stagger {
+  animation: cinematic-enter 0.65s cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation-delay: calc(var(--stagger, 0) * 70ms);
+}
+
+@utility quote-pulse {
+  animation: quote-pulse 0.55s cubic-bezier(0.22, 1, 0.36, 1);
 }
 
 @utility iridescent-edge {
@@ -276,6 +335,44 @@
   }
 }
 
+@keyframes cinematic-enter {
+  from {
+    opacity: 0;
+    transform: translate3d(0, 16px, 0) scale(0.985);
+    filter: blur(4px);
+  }
+  to {
+    opacity: 1;
+    transform: translate3d(0, 0, 0) scale(1);
+    filter: blur(0);
+  }
+}
+
+@keyframes quote-pulse {
+  0% {
+    transform: translateY(2px);
+    opacity: 0.55;
+  }
+  55% {
+    transform: translateY(0) scale(1.035);
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes sheen {
+  0%,
+  64% {
+    transform: translateX(-65%) rotate(8deg);
+  }
+  82%,
+  100% {
+    transform: translateX(65%) rotate(8deg);
+  }
+}
+
 @keyframes draw {
   to {
     stroke-dashoffset: 0;
@@ -289,5 +386,14 @@
     animation-duration: 0.001ms !important;
     animation-iteration-count: 1 !important;
     transition-duration: 0.001ms !important;
+  }
+
+  .cinematic-page,
+  .cinematic-stagger,
+  .quote-pulse,
+  .glass::after,
+  .glass-strong::after {
+    animation: none !important;
+    filter: none !important;
   }
 }

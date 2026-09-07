@@ -59,7 +59,7 @@ function Portfolio() {
       </header>
 
       <div className="grid gap-5 xl:grid-cols-[1.6fr_1fr]">
-        <Panel iridescent className="animate-breathe overflow-hidden p-6 sm:p-8">
+        <Panel iridescent className="animate-breathe cinematic-stagger overflow-hidden p-6 sm:p-8 [--stagger:0]">
           <p className="text-xs uppercase tracking-[0.3em] text-muted-foreground">Total balance</p>
           <Counter
             value={balance}
@@ -100,7 +100,7 @@ function Portfolio() {
         </Panel>
 
         <div className="space-y-5">
-          <Panel className="p-6">
+          <Panel className="cinematic-stagger p-6 [--stagger:1]">
             <h2 className="text-lg">Portfolio health</h2>
             <p className="mt-1 text-sm text-muted-foreground">
               Diversified across 4 chains. Volatility exposure is moderate.
@@ -124,7 +124,7 @@ function Portfolio() {
             </div>
           </Panel>
 
-          <Panel className="p-6">
+          <Panel className="cinematic-stagger p-6 [--stagger:2]">
             <h2 className="text-lg">Allocation</h2>
             <div className="mt-4 space-y-3">
               {ASSETS.map((a) => {
@@ -153,8 +153,8 @@ function Portfolio() {
       <section>
         <h2 className="mb-3 text-lg">Assets</h2>
         <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-3">
-          {ASSETS.map((a) => (
-            <Tilt key={a.id} max={7}>
+          {ASSETS.map((a, index) => (
+            <Tilt key={a.id} max={7} className="cinematic-stagger" style={{ "--stagger": index + 3 } as React.CSSProperties}>
               <Link
                 to="/assets/$assetId"
                 params={{ assetId: a.id }}
