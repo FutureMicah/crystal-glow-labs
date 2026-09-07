@@ -6,11 +6,13 @@ export function Panel({
   className,
   strong,
   iridescent,
+  style,
 }: {
   children: ReactNode;
   className?: string;
   strong?: boolean;
   iridescent?: boolean;
+  style?: CSSProperties;
 }) {
   return (
     <div
@@ -20,6 +22,7 @@ export function Panel({
         "rounded-2xl",
         className,
       )}
+      style={style}
     >
       {children}
     </div>
