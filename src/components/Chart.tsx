@@ -34,7 +34,7 @@ export function Chart({
   return (
     <svg
       viewBox={`0 0 ${W} ${H}`}
-      className="w-full touch-none"
+      className="w-full touch-none animate-fade-in"
       style={{ height }}
       preserveAspectRatio="none"
       role="img"

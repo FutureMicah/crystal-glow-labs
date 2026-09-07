@@ -95,11 +95,11 @@ function Trade() {
       </header>
 
       <div className="grid gap-5 lg:grid-cols-[1.5fr_1fr]">
-        <Panel iridescent className="overflow-hidden p-4 sm:p-6">
+        <Panel iridescent className="cinematic-stagger overflow-hidden p-4 sm:p-6 [--stagger:0]">
           <Chart data={series(inst.symbol, 90, chg / 10)} height={280} />
         </Panel>
 
-        <Panel className="space-y-5 p-5 sm:p-6">
+        <Panel className="cinematic-stagger space-y-5 p-5 sm:p-6 [--stagger:1]">
           <div className="grid grid-cols-2 gap-2">
             {(["buy", "sell"] as const).map((s) => (
               <button

@@ -1,5 +1,6 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { RotateCcw } from "lucide-react";
+import type { CSSProperties } from "react";
 import { toast } from "sonner";
 import { Panel } from "@/components/glass";
 import {
@@ -64,7 +65,7 @@ function Positions() {
             tone: unrealized >= 0 ? "text-success" : "text-destructive",
           },
         ].map((s) => (
-          <Panel key={s.label} className="p-4">
+          <Panel key={s.label} className="cinematic-stagger p-4" style={{ "--stagger": s.label === "Equity" ? 0 : s.label === "Free cash" ? 1 : 2 } as CSSProperties}>
             <p className="text-xs uppercase tracking-[0.2em] text-muted-foreground">{s.label}</p>
             <p className={cn("num mt-1 text-xl", s.tone)}>{s.value}</p>
           </Panel>
@@ -88,7 +89,7 @@ function Positions() {
               const pnl = positionPnl(p);
               const roe = p.margin > 0 ? (pnl / p.margin) * 100 : 0;
               return (
-                <Panel key={p.id} className="flex flex-wrap items-center gap-x-6 gap-y-3 p-4">
+                <Panel key={p.id} className="cinematic-stagger flex flex-wrap items-center gap-x-6 gap-y-3 p-4" style={{ "--stagger": positions.indexOf(p) } as CSSProperties}>
                   <div>
                     <p className="font-medium">
                       <span
@@ -155,7 +156,8 @@ function Positions() {
               return (
                 <Panel
                   key={t.id}
-                  className="flex flex-wrap items-center gap-x-5 gap-y-1 p-3.5 text-sm"
+                  className="cinematic-stagger flex flex-wrap items-center gap-x-5 gap-y-1 p-3.5 text-sm"
+                  style={{ "--stagger": history.indexOf(t) } as CSSProperties}
                 >
                   <span
                     className={cn(
