@@ -1,14 +1,23 @@
 import { Link, useRouterState } from "@tanstack/react-router";
-import { Briefcase, CandlestickChart, CreditCard, LayoutGrid, Repeat2, Sparkles } from "lucide-react";
+import {
+  Briefcase,
+  CandlestickChart,
+  CreditCard,
+  LayoutGrid,
+  LineChart,
+  Repeat2,
+  Sparkles,
+  Sprout,
+} from "lucide-react";
 import type { ReactNode } from "react";
 import { cn } from "@/lib/utils";
 import { Aurora } from "./Aurora";
 
 const NAV = [
   { to: "/", label: "Portfolio", icon: LayoutGrid },
+  { to: "/plans", label: "Plans", icon: Sprout },
+  { to: "/investments", label: "Invest", icon: Briefcase },
   { to: "/markets", label: "Markets", icon: CandlestickChart },
-  { to: "/positions", label: "Positions", icon: Briefcase },
-  { to: "/cards", label: "Cards", icon: CreditCard },
   { to: "/swap", label: "Swap", icon: Repeat2 },
 ] as const;
 
@@ -33,7 +42,7 @@ export function Shell({ children }: { children: ReactNode }) {
                 to={to}
                 className={cn(
                   "press flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm transition-colors",
-                  path === to
+                  path === to || (to !== "/" && path.startsWith(to))
                     ? "glass-strong text-foreground"
                     : "text-muted-foreground hover:text-foreground",
                 )}
@@ -44,7 +53,7 @@ export function Shell({ children }: { children: ReactNode }) {
             ))}
           </nav>
           <p className="mt-auto text-xs leading-relaxed text-muted-foreground">
-            Frosted crystal edition · v1.0
+            Frosted crystal · Investment + Paper Trading
           </p>
         </div>
       </aside>
@@ -63,7 +72,7 @@ export function Shell({ children }: { children: ReactNode }) {
               aria-label={label}
               className={cn(
                 "press flex min-h-11 flex-1 flex-col items-center justify-center gap-0.5 rounded-full px-3 py-2 text-[11px]",
-                path === to
+                path === to || (to !== "/" && path.startsWith(to))
                   ? "bg-primary text-primary-foreground"
                   : "text-muted-foreground",
               )}
