@@ -2,10 +2,9 @@ import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { ArrowLeft } from "lucide-react";
 import { useState } from "react";
 import { toast } from "sonner";
-import { Chart } from "@/components/Chart";
+import { LiveChart } from "@/components/LiveChart";
 import { Panel } from "@/components/glass";
 import { openPosition, useEquity, type Side } from "@/lib/account";
-import { series } from "@/lib/market";
 import { dayChangePct, fmtPrice, getInstrument, useQuote } from "@/lib/trading";
 import { cn } from "@/lib/utils";
 
@@ -80,7 +79,7 @@ function Trade() {
         </Link>
         <div>
           <p className="text-xs uppercase tracking-[0.3em] text-muted-foreground">
-            {inst.cls} · {inst.symbol}
+            {inst.cls} · {inst.symbol} · Paper
           </p>
           <h1 className="text-2xl sm:text-3xl">{inst.name}</h1>
         </div>
@@ -96,7 +95,7 @@ function Trade() {
 
       <div className="grid gap-5 lg:grid-cols-[1.5fr_1fr]">
         <Panel iridescent className="cinematic-stagger overflow-hidden p-4 sm:p-6 [--stagger:0]">
-          <Chart data={series(inst.symbol, 90, chg / 10)} height={280} />
+          <LiveChart symbol={inst.symbol} height={280} />
         </Panel>
 
         <Panel className="cinematic-stagger space-y-5 p-5 sm:p-6 [--stagger:1]">

@@ -36,7 +36,7 @@ export const getInstrument = (symbol: string) =>
 
 export const ASSET_CLASSES: AssetClass[] = ["Crypto", "Forex", "Metals", "Indices", "Energy"];
 
-// ── Live quote engine ───────────────────────────────────────────────
+// ── Live quote engine + rolling history ─────────────────────────────
 export type Quote = {
   price: number;
   prev: number;
@@ -45,10 +45,17 @@ export type Quote = {
   ask: number;
 };
 
-type TapeState = { quotes: Record<string, Quote>; tick: number };
+const HISTORY_LEN = 120;
+
+type TapeState = {
+  quotes: Record<string, Quote>;
+  history: Record<string, number[]>;
+  tick: number;
+};
 
 function seedState(): TapeState {
   const quotes: Record<string, Quote> = {};
+  const history: Record<string, number[]> = {};
   for (const inst of INSTRUMENTS) {
     const half = (inst.basePrice * inst.spreadBps) / 20000;
     quotes[inst.symbol] = {
@@ -58,8 +65,17 @@ function seedState(): TapeState {
       bid: inst.basePrice - half,
       ask: inst.basePrice + half,
     };
+    // Seed a short history so charts aren't empty on first render
+    const hist: number[] = [];
+    let v = inst.basePrice;
+    for (let i = 0; i < 40; i++) {
+      const r = (Math.random() + Math.random() + Math.random() - 1.5) / 1.5;
+      v = Math.max(inst.basePrice * 0.5, v + inst.basePrice * 0.0004 * inst.vol * r);
+      hist.push(v);
+    }
+    history[inst.symbol] = hist;
   }
-  return { quotes, tick: 0 };
+  return { quotes, history, tick: 0 };
 }
 
 let state: TapeState = seedState();
@@ -72,23 +88,35 @@ function emit() {
 }
 
 function tickOnce() {
-  const next: Record<string, Quote> = { ...state.quotes };
+  const nextQuotes: Record<string, Quote> = { ...state.quotes };
+  const nextHistory: Record<string, number[]> = { ...state.history };
+
   for (const inst of INSTRUMENTS) {
-    const q = next[inst.symbol]!;
+    const q = nextQuotes[inst.symbol]!;
     // gaussian-ish step via summed uniforms
     const r = (Math.random() + Math.random() + Math.random() - 1.5) / 1.5;
     const step = inst.basePrice * 0.0006 * inst.vol * r;
     const price = Math.max(inst.basePrice * 0.5, q.price + step);
     const half = (price * inst.spreadBps) / 20000;
-    next[inst.symbol] = {
+    nextQuotes[inst.symbol] = {
       price,
       prev: q.price,
       dayOpen: q.dayOpen,
       bid: price - half,
       ask: price + half,
     };
+
+    // Rolling history for live charts
+    const hist = nextHistory[inst.symbol] ?? [];
+    const updated = [...hist, price].slice(-HISTORY_LEN);
+    nextHistory[inst.symbol] = updated;
   }
-  state = { quotes: next, tick: state.tick + 1 };
+
+  state = {
+    quotes: nextQuotes,
+    history: nextHistory,
+    tick: state.tick + 1,
+  };
   for (const l of listeners) l();
 }
 
@@ -118,6 +146,12 @@ export function useQuotes(): TapeState {
 
 export function useQuote(symbol: string): Quote | undefined {
   return useQuotes().quotes[symbol];
+}
+
+/** Live rolling price history for charts (updates every tick). */
+export function usePriceHistory(symbol: string): number[] {
+  const { history } = useQuotes();
+  return history[symbol] ?? [];
 }
 
 export const dayChangePct = (q: Quote) =>
