@@ -1,4 +1,4 @@
-import { useEffect, useSyncExternalStore } from "react";
+import { useEffect, useState, useSyncExternalStore } from "react";
 
 // ── Packages (seeded from Axion package1) ─────────────────────────────
 export type InvestmentPackage = {
@@ -208,14 +208,15 @@ export function useInvestments(): InvestmentState {
 
 /** Live progress that re-renders every second so bars & timers stay smooth */
 export function useLiveNow(intervalMs = 1000) {
-  return useSyncExternalStore(
-    (cb) => {
-      const id = setInterval(cb, intervalMs);
-      return () => clearInterval(id);
-    },
-    () => Date.now(),
-    () => Date.now(),
-  );
+  const [now, setNow] = useState(0);
+
+  useEffect(() => {
+    setNow(Date.now());
+    const id = setInterval(() => setNow(Date.now()), intervalMs);
+    return () => clearInterval(id);
+  }, [intervalMs]);
+
+  return now;
 }
 
 // ── Actions ───────────────────────────────────────────────────────────

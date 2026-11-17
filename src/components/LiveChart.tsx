@@ -122,9 +122,9 @@ export function LiveChart({
         {pts.length > 0 && (
           <line
             x1={0}
-            y1={pts[pts.length - 1].y}
+            y1={pts.at(-1)?.y ?? 0}
             x2={W}
-            y2={pts[pts.length - 1].y}
+            y2={pts.at(-1)?.y ?? 0}
             stroke={stroke}
             strokeWidth={0.8}
             strokeDasharray="4 4"

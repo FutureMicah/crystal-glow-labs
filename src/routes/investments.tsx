@@ -20,6 +20,13 @@ export const Route = createFileRoute("/investments")({
         name: "description",
         content: "Track your active and completed investment packages with live progress.",
       },
+      { property: "og:title", content: "My Investments — Aurum" },
+      {
+        property: "og:description",
+        content: "Track active and completed investment packages with live progress in Aurum.",
+      },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary" },
     ],
   }),
   component: InvestmentsPage,
